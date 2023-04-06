@@ -5,15 +5,19 @@ import {
   Route,
 } from 'react-router-dom';
 
+import Root from './layouts/Root';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Home />} />
-      {/* TO DO: login path */}
-      {/* TO DO: home redirects to login if signed out */}
-      {/* TO DO: login redirects to home if signed in */}
+      <Route path="/" element={<Root />}>
+        <Route index element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Route>
     </>
   )
 );
