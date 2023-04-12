@@ -1,0 +1,19 @@
+@use '../../styles/abstracts/variables.scss';
+@use '../../styles/abstracts/mixins.scss';
+
+.container {
+  @include mixins.login-container;
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  .sectionPrimary {
+    gap: 2rem;
+  }
+
+  .fbLoginBtn {
+    background-color: transparent;
+    color: variables.$blue-facebook;
+  }
+}
