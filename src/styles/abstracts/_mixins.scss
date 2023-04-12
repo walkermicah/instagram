@@ -1,0 +1,158 @@
+@use './variables.scss';
+
+@mixin login-container {
+  display: grid;
+  justify-content: center;
+  font-size: 1.25rem;
+  text-align: center;
+  gap: 1rem;
+
+  button {
+    border-radius: 5px;
+    padding: 0.5rem;
+  }
+
+  .section {
+    border: 1px solid variables.$container-border;
+    padding: 3rem;
+    display: grid;
+    place-items: center;
+    width: 100%;
+  }
+
+  .sectionPrimary {
+    h1 {
+      font-family: 'Grand Hotel', cursive;
+      font-size: 5rem;
+      padding: 0rem 5rem;
+    }
+
+    h2 {
+      color: variables.$secondary-text;
+
+      span {
+        display: block;
+      }
+    }
+
+    Form {
+      display: grid;
+      gap: 2rem;
+      width: 100%;
+
+      .formControls {
+        display: grid;
+        gap: 0.5rem;
+
+        label {
+          position: relative;
+        }
+
+        input {
+          padding: 1rem 1rem 0rem 1rem;
+          height: 4rem;
+          width: 100%;
+          outline: none;
+          background-color: variables.$input-background;
+          border: 1px solid variables.$container-border;
+          border-radius: 3px;
+          display: grid;
+
+          &::placeholder {
+            opacity: 0;
+          }
+        }
+
+        span {
+          position: absolute;
+          top: 0;
+          left: 1rem;
+          transform: translateY(10px);
+          transition-duration: 300ms;
+          color: variables.$secondary-text;
+        }
+
+        input:not(:placeholder-shown) + span {
+          transform: translateY(0px);
+          font-size: 1rem;
+        }
+      }
+
+      .checkbox {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        letter-spacing: 0.5px;
+      }
+
+      button {
+        background-color: variables.$blue-primary;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+
+        &:disabled {
+          opacity: 0.7;
+        }
+
+        &:not(:disabled) {
+          cursor: pointer;
+
+          &:hover {
+            background-color: variables.$blue-dark;
+          }
+        }
+      }
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      color: variables.$secondary-text;
+      font-weight: 700;
+
+      span {
+        display: block;
+        height: 1px;
+        width: 15rem;
+        background-color: variables.$container-border;
+      }
+    }
+
+    .fbLoginBtn {
+      width: 100%;
+      border: none;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 1rem;
+        transform: translateY(25%);
+      }
+    }
+  }
+
+  .sectionSecondary {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    a {
+      text-decoration: none;
+      color: variables.$blue-primary;
+      font-weight: 700;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .section {
+      border: none;
+    }
+  }
+}
