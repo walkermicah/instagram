@@ -1,14 +1,35 @@
+import { useState } from 'react';
 import { Form, Link } from 'react-router-dom';
 import facebook from '../../img/facebook-white.png';
 import styles from './SignUp.module.scss';
 
 const SignUp = () => {
+  const [inputs, setInputs] = useState({
+    email: '',
+    fullname: '',
+    username: '',
+    password: '',
+  });
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const handleChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisible = (e) => {
+    e.preventDefault();
+    const newVisibility = !passwordVisible;
+    setPasswordVisible(newVisibility);
+  };
+
   const container = styles.container;
   const section = styles.section;
   const sectionPrimary = styles.sectionPrimary;
   const formControls = styles.formControls;
+  const submitBtn = styles.submitBtn;
   const divider = styles.divider;
   const fbLoginBtn = styles.fbLoginBtn;
+  const showPasswordBtn = styles.showPasswordBtn;
   const sectionSecondary = styles.sectionSecondary;
 
   return (
@@ -30,25 +51,59 @@ const SignUp = () => {
         </div>
         <Form>
           <div className={formControls}>
-            <label htmlfor="email">
-              <input type="email" name="email" placeholder="Email" />
+            <label htmlFor="email">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                onChange={handleChange}
+                value={inputs.email}
+              />
               <span>Email</span>
             </label>
-            <label htmlfor="fullname">
-              <input type="text" name="fullname" placeholder="Full name" />
+            <label htmlFor="fullname">
+              <input
+                type="text"
+                name="fullname"
+                placeholder="Full name"
+                onChange={handleChange}
+                value={inputs.fullname}
+              />
               <span>Full name</span>
             </label>
-            <label htmlfor="username">
-              <input type="text" name="username" placeholder="Username" />
+            <label htmlFor="username">
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                onChange={handleChange}
+                value={inputs.username}
+              />
               <span>Username</span>
             </label>
-            <label htmlfor="password">
-              <input type="password" name="password" placeholder="Password" />
+            <label htmlFor="password">
+              <input
+                type={passwordVisible ? 'text' : 'password'}
+                name="password"
+                placeholder="Password"
+                onChange={handleChange}
+                value={inputs.password}
+              />
               <span>Password</span>
+              {inputs.password.length > 0 && (
+                <button
+                  className={showPasswordBtn}
+                  onClick={togglePasswordVisible}
+                >
+                  {passwordVisible ? 'Hide' : 'Show'}
+                </button>
+              )}
             </label>
           </div>
 
-          <button disabled>Sign up</button>
+          <button className={submitBtn} disabled>
+            Sign up
+          </button>
         </Form>
       </div>
 
@@ -60,3 +115,7 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// show/hide password button
+// input validation with conditionally disabled submit btn
+// in-input validation
