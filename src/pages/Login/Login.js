@@ -5,9 +5,16 @@ import { useState } from 'react';
 
 const Login = () => {
   const [inputs, setInputs] = useState({ username: '', password: '' });
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisible = (e) => {
+    e.preventDefault();
+    const newVisibility = !passwordVisible;
+    setPasswordVisible(newVisibility);
   };
 
   const validateInputs = () => {
@@ -25,7 +32,7 @@ const Login = () => {
   const submitBtn = styles.submitBtn;
   const divider = styles.divider;
   const fbLoginBtn = styles.fbLoginBtn;
-  // const showPasswordBtn = styles.showPasswordBtn;
+  const showPasswordBtn = styles.showPasswordBtn;
 
   return (
     <article className={container}>
@@ -45,14 +52,21 @@ const Login = () => {
             </label>
             <label htmlFor="password">
               <input
-                type="password"
+                type={passwordVisible ? 'text' : 'password'}
                 name="password"
                 placeholder="Password"
                 onChange={handleChange}
                 value={inputs.password}
               />
               <span>Password</span>
-              {/* <button className={showPasswordBtn}>Show</button> */}
+              {inputs.password.length > 0 && (
+                <button
+                  className={showPasswordBtn}
+                  onClick={togglePasswordVisible}
+                >
+                  {passwordVisible ? 'Hide' : 'Show'}
+                </button>
+              )}
             </label>
           </div>
 
@@ -84,9 +98,6 @@ const Login = () => {
 
 export default Login;
 
-// show button when start typing password
-// passwordvisible state variable
-// onClick, toggle passwordvisible in state
 // rendering button- conditionally show/hide based on passwordvisible
 // rendering input- make text visible condiitonally when passwordvisible
 //
