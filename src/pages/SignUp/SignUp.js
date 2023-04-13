@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Form, Link } from 'react-router-dom';
-import facebook from '../../img/facebook-white.png';
+import facebook from '../../img/logos/facebook-white.png';
+import valid from '../../img/validation/valid.svg';
+import invalid from '../../img/validation/invalid.svg';
 import styles from './SignUp.module.scss';
 
 const SignUp = () => {
@@ -9,6 +11,12 @@ const SignUp = () => {
     fullname: '',
     username: '',
     password: '',
+  });
+  const [validateIcons, setValidateIcons] = useState({
+    email: false,
+    fullname: false,
+    username: false,
+    password: false,
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -22,10 +30,43 @@ const SignUp = () => {
     setPasswordVisible(newVisibility);
   };
 
+  const showValidateIcons = (input) => {
+    if (inputs[input].length === 0) return;
+    setValidateIcons({ ...validateIcons, [input]: true });
+  };
+
+  const hideValidateIcons = (input) => {
+    if (input === 'email' && validateEmail()) return;
+    if (input === 'fullname' && validateFullname()) return;
+    if (input === 'username' && validateUsername()) return;
+    if (input === 'password' && validatePassword()) return;
+
+    setValidateIcons({ ...validateIcons, [input]: false });
+  };
+
+  const validateEmail = () =>
+    /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(inputs.email);
+
+  const validateFullname = () => inputs.fullname.length > 2;
+
+  const validateUsername = () => inputs.username.length > 2;
+
+  const validatePassword = () => inputs.password.length > 5;
+
+  const validateInputs = () => {
+    return (
+      validateEmail() &&
+      validateFullname() &&
+      validateUsername() &&
+      validatePassword()
+    );
+  };
+
   const container = styles.container;
   const section = styles.section;
   const sectionPrimary = styles.sectionPrimary;
   const formControls = styles.formControls;
+  const validateIcon = styles.validateIcon;
   const submitBtn = styles.submitBtn;
   const divider = styles.divider;
   const fbLoginBtn = styles.fbLoginBtn;
@@ -56,38 +97,69 @@ const SignUp = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                onChange={handleChange}
                 value={inputs.email}
+                onChange={handleChange}
+                onFocus={() => hideValidateIcons('email')}
+                onBlur={() => showValidateIcons('email')}
               />
               <span>Email</span>
+              {validateIcons.email && (
+                <img
+                  className={validateIcon}
+                  src={validateEmail() ? valid : invalid}
+                  alt={validateEmail() ? 'valid email' : 'invalid email'}
+                />
+              )}
             </label>
             <label htmlFor="fullname">
               <input
                 type="text"
                 name="fullname"
                 placeholder="Full name"
-                onChange={handleChange}
                 value={inputs.fullname}
+                onChange={handleChange}
+                onFocus={() => hideValidateIcons('fullname')}
+                onBlur={() => showValidateIcons('fullname')}
               />
               <span>Full name</span>
+              {validateIcons.fullname && (
+                <img
+                  className={validateIcon}
+                  src={validateFullname() ? valid : invalid}
+                  alt={validateFullname() ? 'valid name' : 'invalid name'}
+                />
+              )}
             </label>
             <label htmlFor="username">
               <input
                 type="text"
                 name="username"
                 placeholder="Username"
-                onChange={handleChange}
                 value={inputs.username}
+                onChange={handleChange}
+                onFocus={() => hideValidateIcons('username')}
+                onBlur={() => showValidateIcons('username')}
               />
               <span>Username</span>
+              {validateIcons.username && (
+                <img
+                  className={validateIcon}
+                  src={validateUsername() ? valid : invalid}
+                  alt={
+                    validateUsername() ? 'valid username' : 'invalid username'
+                  }
+                />
+              )}
             </label>
             <label htmlFor="password">
               <input
                 type={passwordVisible ? 'text' : 'password'}
                 name="password"
                 placeholder="Password"
-                onChange={handleChange}
                 value={inputs.password}
+                onChange={handleChange}
+                onFocus={() => hideValidateIcons('password')}
+                onBlur={() => showValidateIcons('password')}
               />
               <span>Password</span>
               {inputs.password.length > 0 && (
@@ -98,10 +170,17 @@ const SignUp = () => {
                   {passwordVisible ? 'Hide' : 'Show'}
                 </button>
               )}
+              {validateIcons.password && (
+                <img
+                  className={validateIcon}
+                  src={validatePassword() ? valid : invalid}
+                  alt={validateEmail() ? 'valid password' : 'invalid password'}
+                />
+              )}
             </label>
           </div>
 
-          <button className={submitBtn} disabled>
+          <button className={submitBtn} disabled={!validateInputs()}>
             Sign up
           </button>
         </Form>
@@ -115,7 +194,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-// show/hide password button
-// input validation with conditionally disabled submit btn
-// in-input validation
